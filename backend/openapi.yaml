@@ -1,0 +1,391 @@
+openapi: 3.0.0
+info:
+  title: Crypto & Forex Investment API
+  version: 1.0.0
+  description: API for crypto/forex investment and copy trading platform
+servers:
+  - url: http://localhost/api
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+        profile:
+          $ref: '#/components/schemas/UserProfile'
+    UserProfile:
+      type: object
+      properties:
+        phone:
+          type: string
+        address:
+          type: string
+        kyc_status:
+          type: string
+        date_of_birth:
+          type: string
+          format: date
+        country:
+          type: string
+        avatar:
+          type: string
+    KycRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        document_type:
+          type: string
+        document_url:
+          type: string
+        status:
+          type: string
+        reviewed_by:
+          type: integer
+        reviewed_at:
+          type: string
+          format: date-time
+    Trader:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        bio:
+          type: string
+        performance_stats:
+          type: object
+        is_public:
+          type: boolean
+        subscription_fee:
+          type: number
+        profit_share_percent:
+          type: number
+        status:
+          type: string
+    CopyGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+        trader_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        is_public:
+          type: boolean
+    Trade:
+      type: object
+      properties:
+        id:
+          type: integer
+        trader_id:
+          type: integer
+        symbol:
+          type: string
+        type:
+          type: string
+        amount:
+          type: number
+        price:
+          type: number
+        trade_time:
+          type: string
+          format: date-time
+        status:
+          type: string
+    CopiedTrade:
+      type: object
+      properties:
+        id:
+          type: integer
+        trade_id:
+          type: integer
+        copier_id:
+          type: integer
+        amount:
+          type: number
+        price:
+          type: number
+        status:
+          type: string
+        copied_at:
+          type: string
+          format: date-time
+    SiteSetting:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+security:
+  - bearerAuth: []
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User registered
+  /login:
+    post:
+      summary: Login and get token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Authenticated
+  /profile:
+    get:
+      summary: Get current user profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Update user profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+      responses:
+        '200':
+          description: Profile updated
+  /kyc:
+    post:
+      summary: Submit KYC request
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                document_type:
+                  type: string
+                document_url:
+                  type: string
+      responses:
+        '200':
+          description: KYC submitted
+  /trader/become:
+    post:
+      summary: Become a trader
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bio:
+                  type: string
+                is_public:
+                  type: boolean
+                subscription_fee:
+                  type: number
+                profit_share_percent:
+                  type: number
+      responses:
+        '200':
+          description: Trader created
+  /trader/stats:
+    get:
+      summary: Get trader stats
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Trader stats
+  /copy/follow:
+    post:
+      summary: Follow a copy group
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  type: integer
+      responses:
+        '200':
+          description: Now following group
+  /copy/unfollow:
+    post:
+      summary: Unfollow a copy group
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  type: integer
+      responses:
+        '200':
+          description: Unfollowed group
+  /copy/trade:
+    post:
+      summary: Copy a trade
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trade_id:
+                  type: integer
+                amount:
+                  type: number
+      responses:
+        '200':
+          description: Trade copied
+  /admin/users:
+    get:
+      summary: List all users (admin only)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of users
+  /admin/user/{id}/status:
+    put:
+      summary: Update user status (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        '200':
+          description: User status updated
+  /admin/kyc/requests:
+    get:
+      summary: List all KYC requests (admin only)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of KYC requests
+  /admin/kyc/{id}/review:
+    put:
+      summary: Review a KYC request (admin only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        '200':
+          description: KYC reviewed
+  /admin/site/settings:
+    get:
+      summary: Get site settings (admin only)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Site settings
+    put:
+      summary: Update site settings (admin only)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                settings:
+                  type: object
+      responses:
+        '200':
+          description: Settings updated 
