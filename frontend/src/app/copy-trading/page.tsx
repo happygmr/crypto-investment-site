@@ -52,7 +52,8 @@ export default function CopyTradingPage() {
       }).then(r => r.json());
       setGroups(refreshed);
     } catch (err: unknown) {
-      showNotification(err.message || 'Action failed', 'error');
+      const errorMessage = err instanceof Error ? err.message : 'Action failed';
+      showNotification(errorMessage, 'error');
     } finally {
       setActionLoading(null);
     }

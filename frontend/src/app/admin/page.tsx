@@ -53,7 +53,8 @@ export default function AdminPage() {
       }).then(r => r.json());
       setUsers(refreshed);
     } catch (err: unknown) {
-      showNotification(err.message || 'Action failed', 'error');
+      const errorMessage = err instanceof Error ? err.message : 'Action failed';
+      showNotification(errorMessage, 'error');
     } finally {
       setActionLoading(null);
       setBanModal({ open: false, userId: null });

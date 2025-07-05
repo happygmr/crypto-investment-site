@@ -52,7 +52,8 @@ export default function ProfilePage() {
       if (!res.ok) throw new Error('Failed to update profile');
       showNotification('Profile updated!', 'success');
     } catch (err: unknown) {
-      showNotification(err.message || 'Failed to update profile', 'error');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update profile';
+      showNotification(errorMessage, 'error');
     } finally {
       setFormLoading(false);
     }

@@ -21,7 +21,8 @@ export default function RegisterPage() {
       showNotification('Registration successful!', 'success');
       router.push('/dashboard');
     } catch (err: unknown) {
-      showNotification(err.message || 'Registration failed', 'error');
+      const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+      showNotification(errorMessage, 'error');
     }
   }
 

@@ -20,7 +20,8 @@ export default function LoginPage() {
       showNotification('Login successful!', 'success');
       router.push('/dashboard');
     } catch (err: unknown) {
-      showNotification(err.message || 'Login failed', 'error');
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      showNotification(errorMessage, 'error');
     }
   }
 
