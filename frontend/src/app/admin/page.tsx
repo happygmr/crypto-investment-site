@@ -7,6 +7,13 @@ import { API_URL } from '../../utils/api';
 import { useNotification } from '../../context/NotificationContext';
 import Modal from '../../components/Modal';
 
+interface AdminUser {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+}
+
 function Spinner() {
   return <span className="inline-block w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>;
 }
@@ -15,7 +22,7 @@ export default function AdminPage() {
   const { user, token, isAdmin, loading } = useAuth();
   const { showNotification } = useNotification();
   const router = useRouter();
-  const [users, setUsers] = useState<Record<string, unknown>[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [banModal, setBanModal] = useState<{ open: boolean; userId: number | null }>({ open: false, userId: null });
