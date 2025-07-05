@@ -10,8 +10,8 @@ export default function ProfilePage() {
   const { user, token, loading } = useAuth();
   const { showNotification } = useNotification();
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
-  const [form, setForm] = useState<any>({});
+  const [profile, setProfile] = useState<Record<string, unknown> | null>(null);
+  const [form, setForm] = useState<Record<string, string>>({});
   const [formLoading, setFormLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -51,7 +51,7 @@ export default function ProfilePage() {
       });
       if (!res.ok) throw new Error('Failed to update profile');
       showNotification('Profile updated!', 'success');
-    } catch (err: any) {
+    } catch (err: unknown) {
       showNotification(err.message || 'Failed to update profile', 'error');
     } finally {
       setFormLoading(false);

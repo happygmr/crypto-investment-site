@@ -8,8 +8,8 @@ interface User {
   name: string;
   email: string;
   status: string;
-  profile?: any;
-  admin?: any;
+  profile?: Record<string, unknown>;
+  admin?: Record<string, unknown>;
 }
 
 interface AuthContextType {

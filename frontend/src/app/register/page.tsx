@@ -20,7 +20,7 @@ export default function RegisterPage() {
       await register(name, email, password);
       showNotification('Registration successful!', 'success');
       router.push('/dashboard');
-    } catch (err: any) {
+    } catch (err: unknown) {
       showNotification(err.message || 'Registration failed', 'error');
     }
   }
