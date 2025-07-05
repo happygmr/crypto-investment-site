@@ -15,7 +15,7 @@ export default function AdminPage() {
   const { user, token, isAdmin, loading } = useAuth();
   const { showNotification } = useNotification();
   const router = useRouter();
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<Record<string, unknown>[]>([]);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [banModal, setBanModal] = useState<{ open: boolean; userId: number | null }>({ open: false, userId: null });
@@ -52,7 +52,7 @@ export default function AdminPage() {
         headers: { Authorization: `Bearer ${token}` },
       }).then(r => r.json());
       setUsers(refreshed);
-    } catch (err: any) {
+    } catch (err: unknown) {
       showNotification(err.message || 'Action failed', 'error');
     } finally {
       setActionLoading(null);
