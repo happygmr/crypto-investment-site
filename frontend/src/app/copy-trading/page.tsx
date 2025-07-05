@@ -6,6 +6,13 @@ import { useRouter } from 'next/navigation';
 import { API_URL } from '../../utils/api';
 import { useNotification } from '../../context/NotificationContext';
 
+interface CopyGroup {
+  id: number;
+  name: string;
+  description: string;
+  isFollowing: boolean;
+}
+
 function Spinner() {
   return <span className="inline-block w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>;
 }
@@ -14,7 +21,7 @@ export default function CopyTradingPage() {
   const { user, token, loading } = useAuth();
   const { showNotification } = useNotification();
   const router = useRouter();
-  const [groups, setGroups] = useState<Record<string, unknown>[]>([]);
+  const [groups, setGroups] = useState<CopyGroup[]>([]);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [error, setError] = useState('');
 
