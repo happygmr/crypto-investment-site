@@ -19,7 +19,7 @@ export default function LoginPage() {
       await login(email, password);
       showNotification('Login successful!', 'success');
       router.push('/dashboard');
-    } catch (err: any) {
+    } catch (err: unknown) {
       showNotification(err.message || 'Login failed', 'error');
     }
   }
@@ -39,7 +39,7 @@ export default function LoginPage() {
         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
       </form>
       <div className="mt-4 text-center">
-        <span className="text-gray-600">Don't have an account?</span>{' '}
+        <span className="text-gray-600">Don&apos;t have an account?</span>{' '}
         <Link href="/register" className="text-blue-600 hover:underline">Register</Link>
       </div>
     </div>

@@ -14,7 +14,7 @@ export default function CopyTradingPage() {
   const { user, token, loading } = useAuth();
   const { showNotification } = useNotification();
   const router = useRouter();
-  const [groups, setGroups] = useState<any[]>([]);
+  const [groups, setGroups] = useState<Record<string, unknown>[]>([]);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [error, setError] = useState('');
 
@@ -51,7 +51,7 @@ export default function CopyTradingPage() {
         headers: { Authorization: `Bearer ${token}` },
       }).then(r => r.json());
       setGroups(refreshed);
-    } catch (err: any) {
+    } catch (err: unknown) {
       showNotification(err.message || 'Action failed', 'error');
     } finally {
       setActionLoading(null);

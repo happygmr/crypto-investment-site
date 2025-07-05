@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const { user, token, loading } = useAuth();
   const { showNotification } = useNotification();
   const router = useRouter();
-  const [profile, setProfile] = useState<Record<string, unknown> | null>(null);
+  const [, setProfile] = useState<Record<string, unknown> | null>(null);
   const [form, setForm] = useState<Record<string, string>>({});
   const [formLoading, setFormLoading] = useState(false);
   const [error, setError] = useState('');

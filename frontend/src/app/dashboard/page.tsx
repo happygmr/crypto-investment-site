@@ -8,7 +8,7 @@ import { API_URL } from '../../utils/api';
 export default function DashboardPage() {
   const { user, token, loading } = useAuth();
   const router = useRouter();
-  const [dashboard, setDashboard] = useState<any>(null);
+  const [dashboard, setDashboard] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {

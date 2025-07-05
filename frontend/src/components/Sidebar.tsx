@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 
 export default function Sidebar() {
-  const { user, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
   return (
     <aside className="w-64 bg-gray-900 text-white flex flex-col p-4 min-h-screen">
       <div className="text-2xl font-bold mb-8">Crypto Invest</div>
