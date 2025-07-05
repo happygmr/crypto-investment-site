@@ -48,15 +48,15 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="text-gray-500">Balance</div>
-          <div className="text-2xl font-bold">${dashboardData.balance}</div>
+          <div className="text-2xl font-bold">${dashboardData.balance.toString()}</div>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
           <div className="text-gray-500">Your Trades</div>
-          <div className="text-2xl font-bold">{dashboardData.trades}</div>
+          <div className="text-2xl font-bold">{dashboardData.trades.toString()}</div>
         </div>
         <div className="bg-white rounded-lg shadow p-6">
           <div className="text-gray-500">Copy Groups</div>
-          <div className="text-2xl font-bold">{dashboardData.groups}</div>
+          <div className="text-2xl font-bold">{dashboardData.groups.toString()}</div>
         </div>
       </div>
     </div>
